@@ -2,7 +2,7 @@ import json
 import sys
 
 from src.scoring import calculate_scores
-from examples.candidate_solution import find_largest
+from src.solution_loader import load_function_from_file
 from src.test_runner import run_test_cases
 
 
@@ -12,8 +12,13 @@ def main():
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
+    candidate_function = load_function_from_file(
+        file_path=data["solution_file"],
+        function_name=data["function_name"]
+    )
+
     test_results = run_test_cases(
-        function=find_largest,
+        function=candidate_function,
         test_cases=data["test_cases"]
     )
 
