@@ -1,6 +1,6 @@
 {
   "problem": "Create a function that returns the largest number in a list.",
-  "solution_file": "examples/candidate_solution.py",
+  "solution_file": "examples/bad_solution.py",
   "function_name": "find_largest",
   "test_cases": [
     {

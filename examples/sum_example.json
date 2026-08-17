@@ -1,0 +1,24 @@
+{
+  "problem": "Create a function that returns the sum of two numbers.",
+  "solution_file": "examples/sum_solution.py",
+  "function_name": "sum_numbers",
+  "test_cases": [
+    {
+      "args": [5, 10],
+      "expected": 15
+    },
+    {
+      "args": [-2, 7],
+      "expected": 5
+    },
+    {
+      "args": [0, 0],
+      "expected": 0
+    },
+    {
+      "args": [100, 25],
+      "expected": 125
+    }
+  ],
+  "timeout_seconds": 2
+}
