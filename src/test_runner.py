@@ -3,11 +3,11 @@ def run_test_cases(function, test_cases):
     results = []
 
     for test_case in test_cases:
-        input_value = test_case["input"]
+        args = test_case["args"]
         expected = test_case["expected"]
 
         try:
-            actual = function(input_value)
+            actual = function(*args)
             passed = actual == expected
 
         except Exception as error:
@@ -18,7 +18,7 @@ def run_test_cases(function, test_cases):
             tests_passed += 1
 
         results.append({
-            "input": input_value,
+            "args": args,
             "expected": expected,
             "actual": actual,
             "passed": passed

@@ -2,24 +2,26 @@
   "problem": "Create a function that returns the largest number in a list.",
   "solution_file": "examples/candidate_solution.py",
   "function_name": "find_largest",
+
   "test_cases": [
     {
-      "input": [1, 2, 3],
+      "args": [[1, 2, 3]],
       "expected": 3
     },
     {
-      "input": [-5, -2, -9],
+      "args": [[-5, -2, -9]],
       "expected": -2
     },
     {
-      "input": [10, 4, 7, 2],
+      "args": [[10, 4, 7, 2]],
       "expected": 10
     },
     {
-      "input": [5],
+      "args": [[5]],
       "expected": 5
     }
   ],
+
   "readability": 9,
   "code_quality": 8
 }

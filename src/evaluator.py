@@ -37,7 +37,7 @@ def main():
 
         print(
             f'Test {index}: {status} | '
-            f'Input: {result["input"]} | '
+            f'Args: {result["args"]} | '
             f'Expected: {result["expected"]} | '
             f'Actual: {result["actual"]}'
         )
