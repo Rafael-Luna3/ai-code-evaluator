@@ -1,7 +1,23 @@
 {
   "problem": "Create a function that returns the largest number in a list.",
-  "tests_passed": 8,
-  "total_tests": 10,
+  "test_cases": [
+    {
+      "input": [1, 2, 3],
+      "expected": 3
+    },
+    {
+      "input": [-5, -2, -9],
+      "expected": -2
+    },
+    {
+      "input": [10, 4, 7, 2],
+      "expected": 10
+    },
+    {
+      "input": [5],
+      "expected": 5
+    }
+  ],
   "readability": 9,
   "code_quality": 8
 }

@@ -2,6 +2,8 @@ import json
 import sys
 
 from src.scoring import calculate_scores
+from examples.candidate_solution import find_largest
+from src.test_runner import run_test_cases
 
 
 def main():
@@ -10,12 +12,31 @@ def main():
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
+    test_results = run_test_cases(
+        function=find_largest,
+        test_cases=data["test_cases"]
+    )
+
     scores = calculate_scores(
-        tests_passed=data["tests_passed"],
-        total_tests=data["total_tests"],
+        tests_passed=test_results["tests_passed"],
+        total_tests=test_results["total_tests"],
         readability=data["readability"],
         code_quality=data["code_quality"]
     )
+
+
+    print("\n=== TEST RESULTS ===\n")
+
+    for index, result in enumerate(test_results["results"], start=1):
+        status = "PASS" if result["passed"] else "FAIL"
+
+        print(
+            f'Test {index}: {status} | '
+            f'Input: {result["input"]} | '
+            f'Expected: {result["expected"]} | '
+            f'Actual: {result["actual"]}'
+        )
+
 
     print("\n=== CODE EVALUATION ===\n")
 
