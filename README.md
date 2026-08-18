@@ -1,61 +1,235 @@
 # AI Code Evaluator
 
-A Python system for automatically testing, analyzing, scoring, and comparing candidate code solutions.
+**Automatically test, analyze, score, and compare Python solutions using deterministic tests, static analysis, and AI-assisted evaluation.**
 
-The project combines deterministic testing, static code analysis, optional AI-assisted evaluation, subprocess execution, solution comparison, automated testing, continuous integration, and a REST API.
+The project was built to explore how programming solutions can be evaluated using a combination of **automated execution and LLM-based reasoning**.
 
-## Features
+---
 
-- Dynamic Python solution loading
-- Generic positional and keyword arguments
-- Automated test execution
-- PASS/FAIL reporting
-- Execution timeout
-- Separate candidate subprocess
-- Static code analysis
-- Weighted scoring
-- Optional Gemini-assisted evaluation
-- A/B solution comparison
-- REST API with FastAPI
-- pytest test suite
-- GitHub Actions CI
+## 🚀 What does it do?
 
-## Architecture
+Give the evaluator:
 
-```text
-Input
-  |
-  v
-Evaluation Service
-  |
-  +--> Test Runner
-  |      |
-  |      v
-  |   Process Runner
-  |      |
-  |      v
-  |   Candidate Worker
-  |      |
-  |      v
-  |   Candidate Code
-  |
-  +--> Static Analysis
-  |
-  +--> Optional AI Evaluation
-  |
-  v
-Scoring
-  |
-  v
-Evaluation Result
+```python
+def find_largest(numbers):
+    return max(numbers)
 ```
 
-## Installation
+along with a programming problem and test cases.
+
+The system then:
+
+```text
+Runs the solution
+→ Executes automated tests
+→ Analyzes the source code
+→ Optionally asks Gemini to evaluate it
+→ Calculates structured scores
+→ Returns technical feedback
+```
+
+It can also evaluate **two competing solutions and determine which one performs better**.
+
+---
+
+## 🎬 Demo
+
+### AI-assisted evaluation
+
+![AI Code Evaluator CLI](docs/images/cli-ai-evaluation.png)
+
+### REST API
+
+![FastAPI interface](docs/images/api-swagger.png)
+
+---
+
+## ⚙️ Evaluation Pipeline
+
+```mermaid
+flowchart TD
+    A[Python Candidate Solution] --> B[Evaluation Service]
+
+    B --> C[Automated Test Runner]
+    C --> D[Subprocess Execution]
+    D --> E[PASS / FAIL Results]
+
+    B --> F[Static Code Analysis]
+    B --> G[Gemini AI Evaluation]
+
+    E --> H[Scoring Engine]
+    F --> H
+    G --> H
+
+    H --> I[Structured Evaluation]
+    I --> J[Scores + Feedback]
+
+    I --> K[Candidate Comparison]
+```
+
+---
+
+## 🧠 Evaluation Criteria
+
+The evaluator produces scores for:
+
+| Metric | Weight |
+|---|---:|
+| Correctness | 55% |
+| Readability | 15% |
+| Code Quality | 15% |
+| Instruction Following | 15% |
+
+The final result contains:
+
+```text
+Correctness
+Readability
+Code Quality
+Instruction Following
+Final Score
+Technical Feedback
+```
+
+---
+
+## 🔍 Example Workflow
+
+Input problem:
+
+```text
+Create a function that returns the largest number in a list.
+```
+
+Candidate:
+
+```python
+def find_largest(numbers):
+    return max(numbers)
+```
+
+Test cases:
+
+```json
+[
+  {
+    "args": [[1, 2, 3]],
+    "expected": 3
+  },
+  {
+    "args": [[-5, -2, -9]],
+    "expected": -2
+  }
+]
+```
+
+Run:
 
 ```bash
-git clone <repository-url>
-cd ai-code-evaluator
+python -m src.evaluator examples/example.json --ai
+```
 
+The evaluator executes the candidate, verifies the tests, performs code analysis, and produces a structured evaluation.
+
+---
+
+## 🆚 Compare Two Solutions
+
+The project can evaluate two implementations of the same programming problem.
+
+```bash
+python -m src.compare examples/example.json examples/bad_example.json
+```
+
+Example:
+
+```python
+# Candidate A
+def find_largest(numbers):
+    return max(numbers)
+```
+
+```python
+# Candidate B
+def find_largest(numbers):
+    return numbers[0]
+```
+
+The evaluator runs both candidates against the same test cases and compares:
+
+- correctness
+- readability
+- code quality
+- instruction following
+- final score
+
+It then reports:
+
+```text
+Winner: Candidate A
+```
+
+---
+
+## ✨ Features
+
+- Dynamic Python solution loading
+- Generic positional arguments with `*args`
+- Keyword arguments with `**kwargs`
+- Automated candidate testing
+- PASS/FAIL reporting
+- Separate candidate subprocess
+- Configurable execution timeout
+- Error handling
+- Static source-code analysis
+- Weighted scoring
+- Gemini-assisted evaluation
+- Structured AI responses with Pydantic
+- A/B candidate comparison
+- REST API with FastAPI
+- Automated tests with pytest
+- Continuous Integration with GitHub Actions
+
+---
+
+## 🏗️ Project Structure
+
+```text
+ai-code-evaluator/
+│
+├── src/
+│   ├── ai_evaluator.py
+│   ├── api.py
+│   ├── candidate_worker.py
+│   ├── comparator.py
+│   ├── compare.py
+│   ├── evaluation_service.py
+│   ├── evaluator.py
+│   ├── process_runner.py
+│   ├── scoring.py
+│   ├── solution_loader.py
+│   ├── static_analysis.py
+│   ├── submission_service.py
+│   └── test_runner.py
+│
+├── tests/
+├── examples/
+├── docs/
+│   └── images/
+├── .github/
+│   └── workflows/
+├── README.md
+├── SECURITY.md
+└── requirements.txt
+```
+
+---
+
+## 🛠️ Installation
+
+```bash
+git clone https://github.com/Rafael-Luna3/ai-code-evaluator.git
+cd ai-code-evaluator
 python -m venv .venv
 ```
 
@@ -71,7 +245,11 @@ Install dependencies:
 python -m pip install -r requirements.txt
 ```
 
-## CLI Evaluation
+---
+
+## 💻 CLI Usage
+
+Standard evaluation:
 
 ```bash
 python -m src.evaluator examples/example.json
@@ -83,140 +261,105 @@ JSON output:
 python -m src.evaluator examples/example.json --json
 ```
 
-## AI-Assisted Evaluation
+---
 
-Set a Gemini API key.
+## 🤖 AI-Assisted Evaluation
 
-Windows PowerShell:
+Set your Gemini API key:
 
 ```powershell
 $env:GEMINI_API_KEY="YOUR_API_KEY"
 ```
 
-Then:
+Run:
 
 ```bash
 python -m src.evaluator examples/example.json --ai
 ```
 
-The default AI model is:
+---
 
-```text
-gemini-3.6-flash
-```
+## 🌐 REST API
 
-You can override it with:
-
-```powershell
-$env:GEMINI_MODEL="MODEL_ID"
-```
-
-## Compare Solutions
-
-```bash
-python -m src.compare examples/example.json examples/bad_example.json
-```
-
-With AI:
-
-```bash
-python -m src.compare examples/example.json examples/bad_example.json --ai
-```
-
-## REST API
-
-Start the development server:
+Start the API:
 
 ```bash
 fastapi dev src/api.py
 ```
 
-Open:
+Interactive documentation:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-### Health
+Available endpoints:
 
 ```text
-GET /health
-```
-
-### Evaluate
-
-```text
+GET  /health
 POST /evaluate
-```
-
-Example request:
-
-```json
-{
-  "problem": "Return the sum of two numbers.",
-  "code": "def add(a, b):\n    return a + b",
-  "function_name": "add",
-  "test_cases": [
-    {
-      "args": [2, 3],
-      "expected": 5
-    }
-  ],
-  "use_ai": false,
-  "timeout_seconds": 2
-}
-```
-
-### Compare
-
-```text
 POST /compare
 ```
 
-Compares two candidate implementations using the same problem and test cases.
+---
 
-## Testing
+## 🧪 Automated Testing
+
+Run:
 
 ```bash
 python -m pytest
 ```
 
-## Scoring
+The project includes tests for:
 
-The final score combines:
+- scoring
+- candidate execution
+- timeouts
+- solution loading
+- static analysis
+- evaluation service
+- candidate comparison
+- AI response validation
+- REST API
+- CLI evaluation
 
-- Correctness: 55%
-- Readability: 15%
-- Code quality: 15%
-- Instruction following: 15%
+---
 
-In static mode, automated correctness is used as a proxy for instruction following.
+## 🔐 Security
 
-In AI mode, instruction following, readability, and code quality are evaluated by the configured Gemini model.
+Candidate Python code is executed in a separate subprocess with a configurable timeout.
 
-## Security
+This helps protect against hanging executions such as:
 
-Candidate code runs in a separate subprocess with a timeout.
+```python
+while True:
+    pass
+```
 
-This is not a complete security sandbox.
+However, subprocess execution is **not a complete security sandbox**.
 
-Do not execute arbitrary untrusted code on a sensitive machine.
+See [`SECURITY.md`](SECURITY.md).
 
-See `SECURITY.md`.
+---
 
-## Tech Stack
+## 🧰 Tech Stack
 
 - Python
-- pytest
 - FastAPI
-- Google GenAI SDK
 - Gemini API
-- GitHub Actions
-- JSON
+- Google GenAI SDK
+- pytest
+- Pydantic
 - Python AST
 - subprocess
-- Pydantic
+- JSON
+- Git
+- GitHub
+- GitHub Actions
 
-## Status
+---
 
-Version 1.0.
+## 📌 Version
+
+**v1.0.0**
